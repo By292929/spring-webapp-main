@@ -15,7 +15,7 @@ phases:
       - printf '{"ImageURI":"%s"}' $SPRING_ECR_URL:latest > imageDetail.json
       
       # 2. UPLOAD the nested template to S3
-      - aws s3 cp service-stack.yaml s3://$TEMPLATE_BUCKET/templates/service-stack.yaml
+      - aws s3 cp service-stack.yaml s3://codepipeline-ap-southeast-1-32e8a53442fb-4755-93f9-92936e8733f6/templates/service-stack.yaml
 artifacts:
   files:
     - imageDetail.json
