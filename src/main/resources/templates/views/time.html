@@ -1,0 +1,14 @@
+<!-- src/main/resources/templates/time.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Current Time</title>
+    <link rel="stylesheet" th:href="@{/css/demo.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+    <h1>V2. Current Time:</h1>
+    <p th:text="'Time: ' + ${currentTime}" class="funny"></p>
+    <button type="button" class="btn btn-primary">Primary</button>
+</body>
+</html>

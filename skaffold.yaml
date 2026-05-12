@@ -1,0 +1,28 @@
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
+  name: springboot-skaffold-project
+
+build:
+  artifacts:
+    - image: trueidc-spring-demoapp
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        # Syncs compiled classes/resources without rebuilding the image
+        auto: true
+
+deploy:
+  docker:
+    # Instead of Kubernetes, this tells Skaffold to run containers 
+    # directly on your local Docker engine.
+    images:
+      - trueidc-spring-demoapp
+
+# Optional: Port forwarding for local access
+portForward:
+  - resourceType: container
+    resourceName: trueidc-spring-demoapp
+    port: 8080
+    localPort: 8080
+    address: 0.0.0.0

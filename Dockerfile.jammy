@@ -1,0 +1,29 @@
+# STAGE 1: Build the JAR using Maven
+FROM maven:3.9.6-eclipse-temurin-21-jammy AS build-env
+WORKDIR /opt/app
+# Copy the pom.xml first to cache dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Now copy the source code and build
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# STAGE 2: Extract Layers
+FROM eclipse-temurin:21-jdk-jammy AS builder
+WORKDIR /opt/app
+# We copy the JAR from the FIRST stage, not the local disk
+COPY --from=build-env /opt/app/target/*.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+# STAGE 3: Final Runtime
+FROM eclipse-temurin:21-jre-jammy
+WORKDIR /opt/app
+RUN useradd -ms /bin/bash springuser
+USER springuser
+COPY --from=builder /opt/app/dependencies/ ./
+COPY --from=builder /opt/app/spring-boot-loader/ ./
+COPY --from=builder /opt/app/snapshot-dependencies/ ./
+COPY --from=builder /opt/app/application/ ./
+EXPOSE 8080
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]

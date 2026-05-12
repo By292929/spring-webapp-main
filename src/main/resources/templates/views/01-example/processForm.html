@@ -1,0 +1,25 @@
+<!-- src/main/resources/templates/processForm.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Process Form</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Form Result</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Student Name</h5>
+                        <p class="card-text" th:text="${param.studentName}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

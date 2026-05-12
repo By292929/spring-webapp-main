@@ -1,0 +1,9 @@
+// 1. Define your custom color
+$dark-red: #8b0000;
+
+// 2. Map the dark red to Bootstrap's "primary" variable
+$primary: $dark-red;
+
+// 3. Import Bootstrap's logic
+// This looks into the 'bootstrap' folder for the main file
+@import "bootstrap/bootstrap";

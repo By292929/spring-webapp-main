@@ -1,0 +1,35 @@
+<!-- src/main/resources/templates/time.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Show Form</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form th:action="@{/processForm}" method="GET">
+                            <div class="mb-3">
+                                <label for="studentName" class="form-label">Name</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="studentName"
+                                       name="studentName"
+                                       placeholder="What's your name?"/>
+                            </div>
+                            <div class="d-grid">
+                                <input type="submit" 
+                                       class="btn btn-primary" 
+                                       value="Submit"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
