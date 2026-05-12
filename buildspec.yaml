@@ -2,15 +2,15 @@ version: 0.2
 phases:
   build:
     commands:
-      - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - ./mvnw clean package
+      - docker build -t $REPO_URI:latest .
   post_build:
     commands:
-      - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
+      - docker push $REPO_URI:latest
+      - printf '{"ImageURI":"%s"}' $REPO_URI:latest > imageDetail.json
 artifacts:
   files:
     - imageDetail.json
-    - appspec.yaml
-    - taskdef.json
+    - service-stack.yaml
+    - appspec.yaml    # Needed for Blue/Green
+    - taskdef.json    # Needed for Blue/Green
