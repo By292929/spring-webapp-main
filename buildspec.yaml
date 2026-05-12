@@ -3,13 +3,18 @@ phases:
   build:
     commands:
       - ./mvnw clean package
-      - docker build -t $REPO_URI:latest .
+      - docker build -t spring-app:latest .
   post_build:
     commands:
-      - docker push $REPO_URI:latest
-      # 1. Create the image metadata for ECS
-      - printf '{"ImageURI":"%s"}' $REPO_URI:latest > imageDetail.json
-      # 2. UPLOAD the nested template to S3 (Crucial for Nested Stacks)
+      - echo Pushing the Docker image...
+      # Use SPRING_ECR_URL for everything
+      - docker tag spring-app:latest $SPRING_ECR_URL:latest
+      - docker push $SPRING_ECR_URL:latest
+      
+      # 1. Create the image metadata using the SAME URL
+      - printf '{"ImageURI":"%s"}' $SPRING_ECR_URL:latest > imageDetail.json
+      
+      # 2. UPLOAD the nested template to S3
       - aws s3 cp service-stack.yaml s3://$TEMPLATE_BUCKET/templates/service-stack.yaml
 artifacts:
   files:
