@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  VPCId: {Type: "AWS::EC2::VPC::Id"}
+  SubnetA: {Type: "AWS::EC2::Subnet::Id"}
+  SubnetB: {Type: "AWS::EC2::Subnet::Id"}
+  ECSClusterName: {Type: String}
+
+Resources:
+  SpringService:
+    Type: "AWS::ECS::Service"
+    Properties:
+      Cluster: !Ref ECSClusterName
+      LaunchType: "FARGATE"
+      DesiredCount: 1
+      # Using standard rolling update for this service to simplify
+      DeploymentController: {Type: "ECS"} 
+      TaskDefinition: !Ref SpringTaskDef
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          SecurityGroups: [!ImportValue 'DemoAppSecurityGroup'] # Exported from main stack
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          AssignPublicIp: "ENABLED"
+
+  SpringTaskDef:
+    Type: "AWS::ECS::TaskDefinition"
+    Properties:
+      ExecutionRoleArn: !ImportValue 'TaskExecutionRoleArn'
+      Cpu: "256"
+      Memory: "512"
+      NetworkMode: "awsvpc"
+      RequiresCompatibilities: ["FARGATE"]
+      ContainerDefinitions:
+        - Name: "spring-app"
+          Image: "REPLACE_WITH_IMAGE_URI" # Pipeline will inject this
+          PortMappings: [{ContainerPort: 8080}]
