@@ -7,10 +7,13 @@ phases:
   post_build:
     commands:
       - docker push $REPO_URI:latest
+      # 1. Create the image metadata for ECS
       - printf '{"ImageURI":"%s"}' $REPO_URI:latest > imageDetail.json
+      # 2. UPLOAD the nested template to S3 (Crucial for Nested Stacks)
+      - aws s3 cp service-stack.yaml s3://$TEMPLATE_BUCKET/templates/service-stack.yaml
 artifacts:
   files:
     - imageDetail.json
     - service-stack.yaml
-    - appspec.yaml    # Needed for Blue/Green
-    - taskdef.json    # Needed for Blue/Green
+    - appspec.yaml
+    - taskdef.json
