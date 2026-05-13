@@ -29,7 +29,6 @@ Resources:
     Type: AWS::ECS::Service
     Properties:
       ServiceName: spring-webapp-service
-      HealthCheckGracePeriodSeconds: 120
       Cluster: !Ref ClusterName
       TaskDefinition: !Ref SpringTaskDef
       LaunchType: FARGATE
@@ -40,6 +39,8 @@ Resources:
           AssignPublicIp: ENABLED
           SecurityGroups:
             - !Ref SecurityGroupId
+      DeploymentController:
+        Type: CODE_DEPLOY
       LoadBalancers:
         - TargetGroupArn: !Ref TargetGroupArn
           ContainerName: spring-app
