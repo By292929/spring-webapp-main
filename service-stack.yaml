@@ -6,6 +6,7 @@ Parameters:
   ClusterName: {Type: String}
   ImageURI: {Type: String}
   ExecutionRoleArn: {Type: String}
+  SecurityGroupId: {Type: String}
 
 Resources:
   SpringTaskDef:
@@ -34,4 +35,5 @@ Resources:
         AwsvpcConfiguration:
           Subnets: [!Ref SubnetA, !Ref SubnetB]
           AssignPublicIp: ENABLED
-          SecurityGroups: [!ImportValue 'DemoAppSecurityGroup'] # From Parent Stack
+          SecurityGroups:
+            - !Ref SecurityGroupId
