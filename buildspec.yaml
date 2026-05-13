@@ -1,10 +1,12 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto21
+      
   build:
     commands:
-      - chmod +x mvnw
-      - ./mvnw clean package
       - docker build -t spring-app:latest .
 
   post_build:
