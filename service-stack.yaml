@@ -7,6 +7,8 @@ Parameters:
   ImageURI: {Type: String}
   ExecutionRoleArn: {Type: String}
   SecurityGroupId: {Type: String}
+  TargetGroupArn:
+    Type: String
 
 Resources:
   SpringTaskDef:
@@ -37,3 +39,7 @@ Resources:
           AssignPublicIp: ENABLED
           SecurityGroups:
             - !Ref SecurityGroupId
+      LoadBalancers:
+        - TargetGroupArn: !Ref TargetGroupArn
+          ContainerName: spring-app
+          ContainerPort: 8080
