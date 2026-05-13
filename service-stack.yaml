@@ -45,3 +45,6 @@ Resources:
         - TargetGroupArn: !Ref TargetGroupArn
           ContainerName: spring-app
           ContainerPort: 8080
+Outputs:
+  ServiceName:
+    Value: !GetAtt SpringService.Name
