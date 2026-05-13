@@ -1,5 +1,5 @@
 # STAGE 1: Build (Using Alpine Maven to keep the builder light)
-FROM maven:3.9.6-eclipse-temurin-21-alpine AS build-env
+FROM public.ecr.aws/docker/library/maven:3.9.6-eclipse-temurin-21-alpine AS build-env
 WORKDIR /opt/app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
@@ -8,13 +8,13 @@ COPY src ./src
 RUN mvn clean package -DskipTests -B
 
 # STAGE 2: Extract Layers (Still need JDK here for layertools)
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM public.ecr.aws/docker/library/eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /opt/app
 COPY --from=build-env /opt/app/target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
 # STAGE 3: Final Runtime (The tiny 150MB result)
-FROM eclipse-temurin:21-jre-alpine
+FROM public.ecr.aws/docker/library/eclipse-temurin:21-jre-alpine
 WORKDIR /opt/app
 
 # Security: Alpine-specific user creation
