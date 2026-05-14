@@ -25,7 +25,7 @@ phases:
       - docker push $SPRING_ECR_URL:$IMAGE_TAG
 
       - echo "Generating imageDetail.json..."
-      - printf '[{"name":"IMAGE1_NAME","imageUri":"%s"}]' "$SPRING_ECR_URL:$IMAGE_TAG" > imageDetail.json
+      - printf '{"ImageURI":"%s"}' "$SPRING_ECR_URL:$IMAGE_TAG" > imageDetail.json
 
       - aws s3 cp service-stack.yaml s3://codepipeline-ap-southeast-1-32e8a53442fb-4755-93f9-92936e8733f6/templates/service-stack.yaml
 
