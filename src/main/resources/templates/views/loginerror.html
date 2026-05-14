@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Failed</title>
+    <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card mt-5 shadow border-0">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white text-center py-4">
+
+                    <div class="mb-3">
+                        <img th:src="@{/images/True-IDC-Logo-194x59-2025.png}"
+                             alt="True IDC Logo"
+                             class="img-fluid">
+                    </div>
+
+                    <h3 class="mb-0">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Information
+                    </h3>
+
+                </div>
+
+                <!-- Body -->
+                <div class="card-body text-center p-5">
+
+                    <div class="mb-4">
+                        <i class="bi bi-exclamation-circle text-danger"
+                           style="font-size: 5rem;"></i>
+                    </div>
+
+                    <h2 class="fw-bold mb-3">
+                        Login Failed
+                    </h2>
+
+                    <p class="text-muted fs-5 mb-4">
+                        The username or password you entered is incorrect.
+                        <br>
+                        Please try again later.
+                    </p>
+
+                    <hr class="my-4">
+
+                    <div class="mt-4">
+                        <i class="bi bi-shield-lock text-secondary"
+                           style="font-size: 2rem;"></i>
+
+                        <p class="text-muted mt-3 mb-0">
+                            If you continue to experience issues,
+                            <br>
+                            please contact your system administrator.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>
