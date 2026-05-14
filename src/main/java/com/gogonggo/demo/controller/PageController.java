@@ -20,7 +20,7 @@ public class PageController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        return "views/login";
+        return "views/loginerror";
     }
 
     @GetMapping("/home")
