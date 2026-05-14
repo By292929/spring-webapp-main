@@ -7,23 +7,31 @@ phases:
 
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
+      - echo "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin 392785071161.dkr.ecr.ap-southeast-1.amazonaws.com
-      
+      - IMAGE_TAG="v${CODEBUILD_BUILD_NUMBER}"
+
   build:
     commands:
+      - echo "Building version $IMAGE_TAG..."
       - docker build -t spring-app:latest .
+      - docker tag spring-app:latest $SPRING_ECR_URL:latest
+      - docker tag spring-app:latest $SPRING_ECR_URL:$IMAGE_TAG
 
   post_build:
     commands:
-      - echo Pushing the Docker image...
-      - docker tag spring-app:latest $SPRING_ECR_URL:latest
+      - echo "Pushing images..."
       - docker push $SPRING_ECR_URL:latest
-      - printf '{"ImageURI":"%s"}' "$SPRING_ECR_URL:latest" > imageDetail.json
+      - docker push $SPRING_ECR_URL:$IMAGE_TAG
+
+      - echo "Generating imageDetail.json..."
+      - printf '[{"name":"IMAGE1_NAME","imageUri":"%s"}]' "$SPRING_ECR_URL:$IMAGE_TAG" > imageDetail.json
+
       - aws s3 cp service-stack.yaml s3://codepipeline-ap-southeast-1-32e8a53442fb-4755-93f9-92936e8733f6/templates/service-stack.yaml
 
 artifacts:
   files:
     - imageDetail.json
-    - service-stack.yaml
+    - taskdef.json
     - appspec.yaml
+    - service-stack.yaml
