@@ -1,0 +1,18 @@
+version: 0.2
+
+env:
+  parameter-store:
+    SONAR_TOKEN: "/sonarcloud/token"
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17 # Or whichever version your app uses
+  build:
+    commands:
+      - echo "Starting SonarCloud Scan..."
+      - mvn verify sonar:sonar \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.organization=by292929 \
+          -Dsonar.projectKey=By292929_spring-webapp-main \
+          -Dsonar.login=$SONAR_TOKEN
