@@ -8,12 +8,13 @@ phases:
   build:
     commands:
       - echo "Starting SonarCloud Quality Gate Scan..."
-      - mvn verify sonar:sonar \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.organization=by292929 \
-          -Dsonar.projectKey=By292929_spring-webapp-main \
-          -Dsonar.login=$SONAR_TOKEN \
-          -Dsonar.qualitygate.wait=true
+      - >
+        mvn verify sonar:sonar
+        -Dsonar.host.url=https://sonarcloud.io
+        -Dsonar.organization=by292929
+        -Dsonar.projectKey=By292929_spring-webapp-main
+        -Dsonar.login=$SONAR_TOKEN
+        -Dsonar.qualitygate.wait=true
 artifacts:
   files:
     - '**/*'
