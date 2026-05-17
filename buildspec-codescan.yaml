@@ -5,8 +5,13 @@ env:
     SONAR_TOKEN: "/sonarcloud/token"
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto21  # This explicitly tells AWS CodeBuild to set up Java 21
   build:
     commands:
+      - echo "Starting Java 21 environment confirmation..."
+      - java -version
       - echo "Starting SonarCloud Quality Gate Scan..."
       - >
         mvn verify sonar:sonar
